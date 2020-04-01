@@ -33,11 +33,9 @@ exports.handler = (event, context) => {
 
             dynamoDB.putItem(putItemObject, () => { });
 
-            route53.listHostedZones({}, (err, data) => {
 
-                let domainName = data.HostedZones[0].Name;
-                console.log(data.HostedZones[0])
-                domainName = domainName.substring(0, domainName.length - 1);
+                //let domainName = data.HostedZones[0].Name;
+                let domainName = process.env.DOMAIN_NAME
 
                 details.forEach(element => billList.push(" \n https://" + domainName + "/v1/bill/" + element.billid + "\n"));
                 let arr = billList.toString();
@@ -57,7 +55,7 @@ exports.handler = (event, context) => {
                             Data: "Get your Bills!"
                         }
                     },
-                    Source: "noreply@" + domainName
+                    Source: process.env.FROM_EMAIL
                 };
                 ses.sendEmail(emailObject, (err, data) => {
                     if (err) {
@@ -66,7 +64,6 @@ exports.handler = (event, context) => {
                         console.log("Email sent! Message ID: ", data.MessageId);
                     }
                 });
-            });
         }
     });
 };
