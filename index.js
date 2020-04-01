@@ -38,7 +38,7 @@ exports.handler = (event, context) => {
                 let domainName = data.HostedZones[0].Name;
                 domainName = domainName.substring(0, domainName.length - 1);
 
-                details.forEach(element => billList.push(" \n https://" + domainName + "/v1/recipe/" + element.recipeid + "\n"));
+                details.forEach(element => billList.push(" \n https://" + domainName + "/v1/bill/" + element.billid + "\n"));
                 let arr = billList.toString();
                 console.log('Bill Links:', arr);
 
