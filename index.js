@@ -30,11 +30,10 @@ exports.handler = (event, context) => {
                     ttl: { N: (Math.floor(Date.now() / 1000) + 180).toString() }
                 }
             };
-
+            logger.info(putItemObject);
             dynamoDB.putItem(putItemObject, () => { });
 
 
-                //let domainName = data.HostedZones[0].Name;
                 let domainName = process.env.DOMAIN_NAME
 
                 details.forEach(element => billList.push(" \n http://" + domainName + "/v1/bill/" + element.billid + "\n"));
