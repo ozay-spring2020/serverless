@@ -36,6 +36,7 @@ exports.handler = (event, context) => {
             route53.listHostedZones({}, (err, data) => {
 
                 let domainName = data.HostedZones[0].Name;
+                console.log(data.HostedZones[0])
                 domainName = domainName.substring(0, domainName.length - 1);
 
                 details.forEach(element => billList.push(" \n https://" + domainName + "/v1/bill/" + element.billid + "\n"));
