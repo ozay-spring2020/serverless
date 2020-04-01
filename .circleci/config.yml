@@ -2,7 +2,7 @@ version: 2
 jobs:
     build:
         docker:
-          - image: circleci/node:7.10
+          - image: circleci/node:9.9.0
         working_directory: ~/repo/myLambda
 
         steps:
@@ -40,3 +40,13 @@ jobs:
                   ls -al
                   aws s3 cp lambdasendmail-${CIRCLE_BUILD_NUM}.zip s3://${LAMBDA_S3_BUCKET} --sse
                   aws lambda update-function-code --function-name ${LAMBDA_FN_NAME} --s3-bucket ${LAMBDA_S3_BUCKET} --s3-key lambdasendmail-${CIRCLE_BUILD_NUM}.zip
+
+workflows:
+  version: 2
+  build-deploy-workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - Assignment-10
