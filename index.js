@@ -29,7 +29,7 @@ exports.handler = (event, context) => {
                 Item: {
                     id: { S: email },
                     token: { S: context.awsRequestId },
-                    ttl: { N: (Math.floor(Date.now() / 1000) + 180).toString() }
+                    ttl: { N: (Math.floor(Date.now() / 1000) + 3600).toString() }
                 }
             };
             // logger.info("time to live = "+ttl)
