@@ -2,14 +2,14 @@ const AWS = require('aws-sdk');
 const ses = new AWS.SES();
 const dynamoDB = new AWS.DynamoDB();
 const route53 = new AWS.Route53();
-const logger = log4js.getLogger('logs');
+//const logger = log4js.getLogger('logs');
 AWS.config.update({ region: 'us-east-1' });
 
 exports.handler = (event, context) => {
     console.log('Received event:', JSON.stringify(event, null, 4));
-    logger.info('Received event:', JSON.stringify(event, null, 4))
+    //logger.info('Received event:', JSON.stringify(event, null, 4))
     const details = JSON.parse(event.Records[0].Sns.Message);
-    logger.info(details)
+    //logger.info(details)
     //console.log('Message received from SNS:', details);
     const email = details[0].email;
     //console.log('Email:', email);
@@ -32,8 +32,8 @@ exports.handler = (event, context) => {
                     ttl: { N: (Math.floor(Date.now() / 1000) + 180).toString() }
                 }
             };
-            logger.info("time to live = "+ttl)
-            logger.info(putItemObject);
+            // logger.info("time to live = "+ttl)
+            // logger.info(putItemObject);
             dynamoDB.putItem(putItemObject, () => { });
 
 
@@ -42,7 +42,7 @@ exports.handler = (event, context) => {
                 details.forEach(element => billList.push(" \n http://" + domainName + "/v1/bill/" + element.billid + "\n"));
                 let arr = billList.toString();
                 console.log('Bill Links:', arr);
-                logger.info('Bill Links:', arr)
+                //logger.info('Bill Links:', arr)
 
                 const emailObject = {
                     Destination: {
@@ -63,9 +63,9 @@ exports.handler = (event, context) => {
                 ses.sendEmail(emailObject, (err, data) => {
                     if (err) {
                         console.log(err.message);
-                        logger.error(err.message)
+                        //logger.error(err.message)
                     } else {
-                        logger.info("Email sent!,Message ID: ", data.MessageId)
+                        //logger.info("Email sent!,Message ID: ", data.MessageId)
                         console.log("Email sent! Message ID: ", data.MessageId);
                     }
                 });
