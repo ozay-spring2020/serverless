@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const ses = new AWS.SES();
 const dynamoDB = new AWS.DynamoDB();
 const route53 = new AWS.Route53();
-
+const logger = log4js.getLogger('logs');
 AWS.config.update({ region: 'us-east-1' });
 
 exports.handler = (event, context) => {
